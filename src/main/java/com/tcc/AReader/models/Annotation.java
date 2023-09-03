@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 public class Annotation {
   @Id @GeneratedValue 
   private Integer id;
+  @OneToMany
   private Book book;
+  
   private User user;
   private String imgUrl;
   // private Group group;

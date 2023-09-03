@@ -12,5 +12,8 @@ import lombok.Builder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookStatus {
-    
+    @Id @GeneratedValue
+    private Integer Id;
+    private Book book;
+    private 
 }
