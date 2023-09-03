@@ -1,4 +1,4 @@
-package com.tcc.AReader;
+package com.tcc.areader;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://lallah.db.elephantsql.com/ffhkfaze
+    username: ffhkfaze
+    password: Qmm2CDDeivQBH9ISGN67xCNA_uB_yuFS
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+  mvc:
+    dispatch-options-request: true
