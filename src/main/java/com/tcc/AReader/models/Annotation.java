@@ -1,7 +1,6 @@
 package com.tcc.areader.models;
 
-import org.springframework.data.annotation.Id;
-
+import jakarta.persistence.Id ;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
@@ -12,7 +11,8 @@ import lombok.Data;
 @Data
 public class Annotation {
 
-  @Id @GeneratedValue
+  @Id
+  @GeneratedValue
   private Integer idAnnotation;
 
   private String imgUrlAnnotation;

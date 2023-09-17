@@ -1,21 +1,8 @@
 spring:
   datasource:
-    url: postgresql://postgres:iPX9Xen8wTcG2KIcSDl8@containers-us-west-53.railway.app:7003/railway
-    username: postgres
-    password: iPX9Xen8wTcG2KIcSDl8
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
   jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-  servlet:
-    multipart:
-      max-file-size: 2MB
-      max-request-size: 2MB
-  mvc:
-    dispatch-options-request: true
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
