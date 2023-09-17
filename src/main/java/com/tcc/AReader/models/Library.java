@@ -9,8 +9,6 @@ import lombok.Builder;
 @Data
 @Entity
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Library {
 
 }

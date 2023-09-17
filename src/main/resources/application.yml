@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://lallah.db.elephantsql.com/ffhkfaze
-    username: ffhkfaze
-    password: Qmm2CDDeivQBH9ISGN67xCNA_uB_yuFS
+    url: postgresql://postgres:iPX9Xen8wTcG2KIcSDl8@containers-us-west-53.railway.app:7003/railway
+    username: postgres
+    password: iPX9Xen8wTcG2KIcSDl8
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
         format_sql: true

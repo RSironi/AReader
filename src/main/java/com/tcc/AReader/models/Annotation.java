@@ -1,15 +1,21 @@
 package com.tcc.areader.models;
 
 import org.springframework.data.annotation.Id;
-import jakarta.persistence.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Table
+@Entity
+@Data
 public class Annotation {
-  @Id @GeneratedValue 
-  private Integer id;
-  @OneToMany
-  private Book book;
+
+  @Id @GeneratedValue
+  private Integer idAnnotation;
+
+  private String imgUrlAnnotation;
   
-  private User user;
-  private String imgUrl;
-  // private Group group;
-}
+  private String textAnnotation;
+} 
