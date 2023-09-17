@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.Builder;
 
 @Data
-@Entity
 @Builder
 public class Library {
 
