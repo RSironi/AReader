@@ -10,8 +10,8 @@ spring:
       ddl-auto: create-drop
   servlet:
     multipart:
-      max-file-size: 5MB
-      max-request-size: 5MB
+      max-file-size: 7MB
+      max-request-size: 7MB
   security:
     user:
       name: test
