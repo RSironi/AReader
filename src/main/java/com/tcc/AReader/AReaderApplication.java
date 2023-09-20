@@ -10,7 +10,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.SingletonManager;
 import com.cloudinary.utils.ObjectUtils;
-
 @SpringBootApplication
 public class AReaderApplication {
 	public static void main(String[] args) {

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Annotation {
   @Id
   @GeneratedValue
-  private Integer id;
+  private Long id;
   private String imgUrl;
   private String text;
 }
