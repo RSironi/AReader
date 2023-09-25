@@ -22,6 +22,9 @@ public class AnnotationRequest extends StoredFile {
   public MultipartFile file;
   @JsonIgnore
   public String imgUrl;
+  public String userEmail;
+  public String bookIsbn;
+  public Integer page;
 
   public String getUrl() {
     if (version != null && format != null && publicId != null) {
