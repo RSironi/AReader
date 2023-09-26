@@ -26,43 +26,47 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class AnnotationService {
 
-
     private final AnnotationRepository annotationRepository;
-   
-    public int save(AnnotationRequest request, BindingResult result) 
+
+    public int save(AnnotationRequest request, BindingResult result)
             throws IOException {
         int returnStatusCode = postToAiStatusCode(request);
 
-        if(returnStatusCode == 200){
+        if (returnStatusCode == 200) {
             uploadFile(request, result);
 
             annotationRepository.save(
-            Annotation.builder()
-            .imgUrl(request.getImgUrl())
-            .text(request.getText())
-            .build()
-            );
+                    Annotation.builder()
+                            .imgUrl(request.getImgUrl())
+                            .text(request.getText())
+                            .userEmail(request.getUserEmail())
+                            .bookIsbn(request.getBookIsbn())
+                            .page(request.getPage())
+                            .annotationUrl("")
+                            .build());
 
-            System.out.println("\n => Saved in DB \n => Find All: "+ annotationRepository.findAll()); //Retirar depois
+            System.out.println("\n => Saved in DB \n => Find All: " + annotationRepository.findAll()); // Retirar depois
         }
         return returnStatusCode;
     }
 
-    public int postToAiStatusCode(AnnotationRequest request) 
+    public int postToAiStatusCode(AnnotationRequest request)
             throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpEntity entity = MultipartEntityBuilder
-        .create()
-        .addBinaryBody("file", request.getFile().getBytes(), ContentType.IMAGE_JPEG, request.getFile().getOriginalFilename())
-        .build();
+                .create()
+                .addBinaryBody("file", request.getFile().getBytes(), ContentType.IMAGE_JPEG,
+                        request.getFile().getOriginalFilename())
+                .build();
 
         HttpPost post = new HttpPost("https://areader-ai-api-zkmzgms3ea-rj.a.run.app");
         post.setEntity(entity);
         HttpResponse response = httpClient.execute(post);
-        
-        System.out.println("\n => AI_API status response: " +response.getStatusLine().getStatusCode()+ " " +response.getStatusLine().getReasonPhrase());
 
-        System.out.println("\n => AI_API body response: "+ EntityUtils.toString(response.getEntity()));
+        System.out.println("\n => AI_API status response: " + response.getStatusLine().getStatusCode() + " "
+                + response.getStatusLine().getReasonPhrase());
+
+        System.out.println("\n => AI_API body response: " + EntityUtils.toString(response.getEntity()));
 
         return response.getStatusLine().getStatusCode();
     }

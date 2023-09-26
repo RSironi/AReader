@@ -34,9 +34,4 @@ public class AnnotationController {
       throws IOException {
     return ResponseEntity.ok(annotationService.save(request, result));
   }
-
-  @PostMapping("/test")
-  public ResponseEntity<Integer> testPostRequest() {
-    return ResponseEntity.ok(100);
-  }
 }

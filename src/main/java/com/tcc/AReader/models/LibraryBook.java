@@ -1,9 +1,12 @@
 package com.tcc.areader.models;
 
-import jakarta.annotation.Nullable;
+import com.tcc.areader.utils.Status;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,17 +18,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Annotation")
-public class Annotation {
+@Table(name = "_LibraryBook")
+public class LibraryBook {
   @Id
   @GeneratedValue
   private Long id;
-  private String imgUrl;
-  private String text;
   private String userEmail;
-  private String bookIsbn;
-
-  @Nullable
-  private Integer page;
-  private String annotationUrl;
+  private String isbn;
+  private Status status;
+  @OneToOne
+  private Book book;
 }
