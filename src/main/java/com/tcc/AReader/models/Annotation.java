@@ -20,12 +20,10 @@ public class Annotation {
   @Id
   @GeneratedValue
   private Long id;
-  private String imgUrl;
-  private String text;
   private String userEmail;
   private String bookIsbn;
-
+  private String imgUrl;
+  private String annotationUrl;
   @Nullable
   private Integer page;
-  private String annotationUrl;
 }
