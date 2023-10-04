@@ -58,7 +58,7 @@ public class AnnotationService {
                                                 .addTextBody("text", text)
                                                 .build();
 
-                HttpPost post = new HttpPost("http://127.0.0.1:80");
+                HttpPost post = new HttpPost("https://areader-ai-api-zkmzgms3ea-rj.a.run.app");
                 post.setEntity(entity);
                 HttpResponse response = httpClient.execute(post);
                 return response;
