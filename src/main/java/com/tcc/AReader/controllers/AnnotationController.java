@@ -30,11 +30,11 @@ public class AnnotationController {
   }
 
   @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> postAnnotationToAi(@RequestParam("file") MultipartFile file, @RequestParam("text") String text)
+  public ResponseEntity<?> postAnnotationToAi(@RequestParam("file") MultipartFile file, @RequestParam("text") String text, @RequestParam("email") String email, @RequestParam("isbn") String isbn)
     throws IOException {
     if (file == null || file.isEmpty() || text == null || text.isEmpty() || !file.getContentType().equals("image/jpeg")) {
-      return ResponseEntity.badRequest().body("File or text is empty");
+      return ResponseEntity.badRequest().body("Empty fields or invalid file type");
     }
-    return ResponseEntity.status(annotationService.postToAi(file, text)).build();
+    return ResponseEntity.status(annotationService.postToAi(file, text,email,isbn)).build();
   }
 }

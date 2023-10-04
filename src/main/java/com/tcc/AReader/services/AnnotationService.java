@@ -27,23 +27,24 @@ public class AnnotationService {
 
         private final AnnotationRepository annotationRepository;
 
-        public int postToAi(MultipartFile file, String text) throws IOException {
+        public int postToAi(MultipartFile file, String text, String email, String isbn) throws IOException {
                 HttpResponse response = executePost(file, text);
                 if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                         ObjectMapper objectMapper = new ObjectMapper();
                         JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(response.getEntity()));
-                        executeSave(jsonNode);
+
+                        executeSave(Annotation.builder()
+                                        .userEmail(email)
+                                        .bookIsbn(isbn)
+                                        .imgUrl(jsonNode.get("urlAnchor").asText())
+                                        .annotationUrl(jsonNode.get("urlAnnotation").asText())
+                                        .build());
                 }
                 return response.getStatusLine().getStatusCode();
         }
 
-        public Annotation executeSave(JsonNode jsonresult) {
-                Annotation annotation = Annotation.builder()
-                                .imgUrl(jsonresult.get("urlAnchor").asText())
-                                .annotationUrl(jsonresult.get("urlAnnotation").asText())
-                                .userEmail("teste@gmail.com")
-                                .bookIsbn("123456789")
-                                .build();
+        public Annotation executeSave(Annotation annotation) {
+
                 System.out.println(annotation);
                 annotationRepository.save(annotation);
                 return annotation;
@@ -52,11 +53,11 @@ public class AnnotationService {
         public HttpResponse executePost(MultipartFile file, String text) throws IOException {
                 HttpClient httpClient = HttpClientBuilder.create().build();
                 HttpEntity entity = MultipartEntityBuilder
-                                                .create()
-                                                .addBinaryBody("file", file.getBytes(), ContentType.create(file.getContentType()),
-                                                                                file.getOriginalFilename())
-                                                .addTextBody("text", text)
-                                                .build();
+                                .create()
+                                .addBinaryBody("file", file.getBytes(), ContentType.create(file.getContentType()),
+                                                file.getOriginalFilename())
+                                .addTextBody("text", text)
+                                .build();
 
                 HttpPost post = new HttpPost("https://areader-ai-api-zkmzgms3ea-rj.a.run.app");
                 post.setEntity(entity);
