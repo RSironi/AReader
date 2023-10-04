@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -25,44 +25,43 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class AnnotationService {
 
-    private final AnnotationRepository annotationRepository;
+        private final AnnotationRepository annotationRepository;
 
-public Annotation save2(HttpResponse result) throws ParseException, IOException {
+        public int postToAi(MultipartFile file, String text) throws IOException {
+                HttpResponse response = executePost(file, text);
+                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(response.getEntity()));
+                        executeSave(jsonNode);
+                }
+                return response.getStatusLine().getStatusCode();
+        }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(result.getEntity()));
-
-        if (result.getStatusLine().getStatusCode() == 200) {
+        public Annotation executeSave(JsonNode jsonresult) {
                 Annotation annotation = Annotation.builder()
-                                .imgUrl(jsonNode.get("urlAncora").asText())
-                                .annotationUrl(jsonNode.get("urlAnotacao").asText())
+                                .imgUrl(jsonresult.get("urlAncora").asText())
+                                .annotationUrl(jsonresult.get("urlAnotacao").asText())
                                 .userEmail("teste@gmail.com")
                                 .bookIsbn("123456789")
                                 .build();
+                System.out.println(annotation);
                 annotationRepository.save(annotation);
                 return annotation;
         }
 
-        return null;
-}
+        public HttpResponse executePost(MultipartFile file, String text) throws IOException {
+                HttpClient httpClient = HttpClientBuilder.create().build();
+                HttpEntity entity = MultipartEntityBuilder
+                                .create()
+                                .addBinaryBody("file", file.getBytes(), ContentType.IMAGE_JPEG,
+                                                file.getOriginalFilename())
+                                .addTextBody("text", text)
+                                .build();
 
-    public void postToAi(MultipartFile file, String text) 
-        throws IOException{ 
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpEntity entity = MultipartEntityBuilder
-                .create()
-                .addBinaryBody("file", file.getBytes(), ContentType.IMAGE_JPEG, file.getOriginalFilename())
-                .addTextBody("text", text)
-                .build();
-        
-        HttpPost post = new HttpPost("http://127.0.0.1:80");
-        post.setEntity(entity);
-        HttpResponse response = httpClient.execute(post);
-
-        System.out.println("\n => AI_API status response: " + response.getStatusLine().getStatusCode() + " "
-                + response.getStatusLine().getReasonPhrase());
-        save2(response);
-    }
-
+                HttpPost post = new HttpPost("http://127.0.0.1:80");
+                post.setEntity(entity);
+                HttpResponse response = httpClient.execute(post);
+                return response;
+        }
 
 }

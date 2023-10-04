@@ -3,6 +3,7 @@ package com.tcc.areader.controllers;
 import java.io.IOException;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,10 +29,13 @@ public class AnnotationController {
     return "Hello World Annotation";
   }
 
-  @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-  public void getFileInfo(@RequestParam("file") MultipartFile file, @RequestParam("text") String text) throws IOException {
-    System.out.println("recebi o post:" + file.getOriginalFilename() + " " + text);
-    annotationService.postToAi(file, text);
-    // Seu código aqui
+  @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> postAnnotationToAi(@RequestParam("file") MultipartFile file, @RequestParam("text") String text)
+      throws IOException {
+    if (file == null || file.isEmpty() || text == null || text.isEmpty()) {
+      return ResponseEntity.badRequest().body("File or text is empty");
+    }
+    System.out.println("=> passando para o service");
+    return ResponseEntity.status(annotationService.postToAi(file, text)).build();
   }
 }
