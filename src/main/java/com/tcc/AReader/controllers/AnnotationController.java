@@ -32,7 +32,7 @@ public class AnnotationController {
   @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> postAnnotationToAi(@RequestParam("file") MultipartFile file, @RequestParam("text") String text)
       throws IOException {
-    if (file == null || file.isEmpty() || text == null || text.isEmpty()) {
+    if (file == null || file.isEmpty() || text == null || text.isEmpty() || file.getContentType() != "image/jpeg") {
       return ResponseEntity.badRequest().body("File or text is empty");
     }
     System.out.println("=> passando para o service");
