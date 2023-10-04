@@ -52,11 +52,11 @@ public class AnnotationService {
         public HttpResponse executePost(MultipartFile file, String text) throws IOException {
                 HttpClient httpClient = HttpClientBuilder.create().build();
                 HttpEntity entity = MultipartEntityBuilder
-                                .create()
-                                .addBinaryBody("file", file.getBytes(), ContentType.IMAGE_JPEG,
-                                                file.getOriginalFilename())
-                                .addTextBody("text", text)
-                                .build();
+                                                .create()
+                                                .addBinaryBody("file", file.getBytes(), ContentType.create(file.getContentType()),
+                                                                                file.getOriginalFilename())
+                                                .addTextBody("text", text)
+                                                .build();
 
                 HttpPost post = new HttpPost("http://127.0.0.1:80");
                 post.setEntity(entity);
