@@ -39,8 +39,8 @@ public class AnnotationService {
 
         public Annotation executeSave(JsonNode jsonresult) {
                 Annotation annotation = Annotation.builder()
-                                .imgUrl(jsonresult.get("urlAncora").asText())
-                                .annotationUrl(jsonresult.get("urlAnotacao").asText())
+                                .imgUrl(jsonresult.get("urlAnchor").asText())
+                                .annotationUrl(jsonresult.get("urlAnnotation").asText())
                                 .userEmail("teste@gmail.com")
                                 .bookIsbn("123456789")
                                 .build();
