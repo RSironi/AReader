@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tcc.areader.models.Annotation;
 import com.tcc.areader.repositories.AnnotationRepository;
+import com.tcc.areader.requests.AddAnnotationRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,15 +28,16 @@ public class AnnotationService {
 
         private final AnnotationRepository annotationRepository;
 
-        public int postToAi(MultipartFile file, String text, String email, String isbn) throws IOException {
-                HttpResponse response = executePost(file, text);
+        public int postToAi(AddAnnotationRequest addannotationrequest) throws IOException {
+                HttpResponse response = executePost(addannotationrequest.getFile(), addannotationrequest.getText());
+                
                 if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                         ObjectMapper objectMapper = new ObjectMapper();
                         JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(response.getEntity()));
 
                         executeSave(Annotation.builder()
-                                        .userEmail(email)
-                                        .bookIsbn(isbn)
+                                        .userEmail(addannotationrequest.getEmail())
+                                        .bookIsbn(addannotationrequest.getIsbn())
                                         .imgUrl(jsonNode.get("urlAnchor").asText())
                                         .annotationUrl(jsonNode.get("urlAnnotation").asText())
                                         .build());
