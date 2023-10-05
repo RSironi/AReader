@@ -10,8 +10,6 @@ import com.tcc.areader.models.LibraryBook;
 import com.tcc.areader.repositories.BookRepository;
 import com.tcc.areader.repositories.LibraryBookRepository;
 import com.tcc.areader.requests.AddBookRequest;
-import com.tcc.areader.requests.RemoveBookRequest;
-import com.tcc.areader.requests.UpdateStatusRequest;
 import com.tcc.areader.utils.Status;
 
 import lombok.RequiredArgsConstructor;
@@ -23,29 +21,36 @@ public class LibraryService {
   private final LibraryBookRepository libraryRepository;
 
   public LibraryBook addBook(AddBookRequest addBookRequest) {
-    Optional<Book> book = bookRepository.findByIsbn(addBookRequest.getIsbn());
-    if (book.isEmpty()) {
-      book = Optional.of(Book.builder().isbn(addBookRequest.getIsbn()).build());
-      bookRepository.save(book.get());
+    Optional<Book> bookOptional = bookRepository.findByIsbn(addBookRequest.getIsbn());
+    Book book;
+    System.out.println("livro opcional");
+    System.out.println(bookOptional);
+    if (bookOptional.isPresent()) {
+      book = bookOptional.get();
+      System.out.println("livro esta presente book = bookptional" + book);
+    } else {
+      book = Book.builder().isbn(addBookRequest.getIsbn()).build();
+      System.out.println("livro não existe ainda book = criando livro " + book);
+      bookRepository.save(book);
     }
     LibraryBook library = LibraryBook.builder()
-        .book(book.get())
+        .book(book)
         .userEmail(addBookRequest.getUserEmail())
         .status(Status.WANT_TO_READ)
+        .isbn(book.getIsbn())
         .build();
     libraryRepository.save(library);
     return library;
   }
 
-  public LibraryBook updateStatus(UpdateStatusRequest request) {
-    LibraryBook library = libraryRepository.findByIsbn(request.isbn).get();
-    library.setStatus(request.status);
-    libraryRepository.save(library);
-    return library;
+  public LibraryBook updateStatus(Long id, Status status) {
+    LibraryBook library = libraryRepository.findById(id).get();
+    library.setStatus(status);
+    return libraryRepository.save(library);
   }
 
-  public void removeBook(RemoveBookRequest request) {
-    libraryRepository.deleteById(request.id);
+  public void removeBook(Long id) {
+    libraryRepository.deleteById(id);
   }
 
   public List<LibraryBook> getBooks(String userEmail) {

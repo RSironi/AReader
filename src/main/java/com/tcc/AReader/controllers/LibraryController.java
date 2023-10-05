@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tcc.areader.models.LibraryBook;
 import com.tcc.areader.requests.AddBookRequest;
-import com.tcc.areader.requests.RemoveBookRequest;
-import com.tcc.areader.requests.UpdateStatusRequest;
 import com.tcc.areader.services.LibraryService;
+import com.tcc.areader.utils.Status;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,14 +29,14 @@ public class LibraryController {
     return libraryService.addBook(addBookRequest);
   }
 
-  @PostMapping("/updateStatus")
-  public LibraryBook updateStatus(UpdateStatusRequest updateStatusRequest) {
-    return libraryService.updateStatus(updateStatusRequest);
+  @PutMapping("/updateStatus")
+  public LibraryBook updateStatus(Long id, Status status) {
+    return libraryService.updateStatus(id, status);
   }
 
-  @PostMapping("/removeBook")
-  public void removeBook(RemoveBookRequest removeBookRequest) {
-    libraryService.removeBook(removeBookRequest);
+  @DeleteMapping("/removeBook")
+  public void removeBook(Long id) {
+    libraryService.removeBook(id);
   }
 
   @GetMapping("/getBooks")
