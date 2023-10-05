@@ -1,6 +1,7 @@
 package com.tcc.areader.services;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -67,4 +68,15 @@ public class AnnotationService {
                 return response;
         }
 
+
+        public List<Annotation> getAnnotationsByEmail(String email) {
+                return annotationRepository.findByUserEmail(email);
+        }
+        public List<Annotation> getAnnotationsByEmailAndIsbn(String email, String isbn) {
+                return annotationRepository.findByUserEmailAndBookIsbn(email, isbn);
+        }
+
+        public void deleteAnnotationById(Long id) {
+                annotationRepository.deleteById(id);
+        }
 }

@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class AddBookRequest {
-  public String isbn;
-  public String userEmail;
+  private String isbn;
+  private String userEmail;
 }
