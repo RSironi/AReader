@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +29,7 @@ public class LibraryController {
     return libraryService.addBook(addBookRequest);
   }
 
-  @PutMapping("/updateStatus")
+  @PatchMapping("/updateStatus")
   public LibraryBook updateStatus(Long id, Status status) {
     return libraryService.updateStatus(id, status);
   }
