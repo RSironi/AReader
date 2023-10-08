@@ -3,6 +3,7 @@ package com.tcc.areader.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,5 +20,9 @@ public class Book {
   @Id
   @GeneratedValue
   private Long id;
-  public String isbn;
+  private String isbn;
+  private String title;
+  private String subtitle;
+  private String author;
+  private String cover;
 }

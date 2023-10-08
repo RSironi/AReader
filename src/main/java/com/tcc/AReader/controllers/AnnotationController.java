@@ -54,4 +54,5 @@ public class AnnotationController {
     }
     return ResponseEntity.status(annotationService.postToAi(addannotationRequest)).build();
   }
+  
 }

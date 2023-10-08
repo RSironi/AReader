@@ -1,13 +1,18 @@
 package com.tcc.areader.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.http.client.ClientProtocolException;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tcc.areader.models.LibraryBook;
@@ -24,9 +29,10 @@ import lombok.RequiredArgsConstructor;
 public class LibraryController {
   private final LibraryService libraryService;
   
-  @PostMapping("/addBook")
-  public LibraryBook addBook(AddBookRequest addBookRequest) {
-    return libraryService.addBook(addBookRequest);
+  @PostMapping(value = "/addBook")
+  @ResponseBody
+  public ResponseEntity<?> addBook(AddBookRequest addBookRequest) throws ClientProtocolException, NotFoundException, IOException {
+    return libraryService.addBookToLibrary(addBookRequest);
   }
 
   @PatchMapping("/updateStatus")
@@ -36,7 +42,7 @@ public class LibraryController {
 
   @DeleteMapping("/removeBook")
   public void removeBook(Long id) {
-    libraryService.removeBook(id);
+    libraryService.removeBookFromLibrary(id);
   }
 
   @GetMapping("/getBooks")
