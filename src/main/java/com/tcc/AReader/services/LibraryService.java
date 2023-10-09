@@ -22,12 +22,15 @@ public class LibraryService {
   private final LibraryBookRepository libraryRepository;
   private final BookService bookService;
 
-  public ResponseEntity<String> addBookToLibrary(AddBookRequest addBookRequest) throws ClientProtocolException, NotFoundException, IOException {
-    
+  public ResponseEntity<?> addBookToLibrary(AddBookRequest addBookRequest)
+      throws ClientProtocolException, NotFoundException, IOException {
 
     Book book = bookService.getBook(addBookRequest.getIsbn());
     if (book == null) {
-      return ResponseEntity.badRequest().body("Book not found");
+      return ResponseEntity.badRequest().body("Livro não encontrado");
+    }
+    if (libraryBookExists(addBookRequest.getIsbn())) {
+      return ResponseEntity.badRequest().body("Livro já adicionado na biblioteca");
     }
     LibraryBook library = LibraryBook.builder()
         .book(book)
@@ -36,7 +39,12 @@ public class LibraryService {
         .isbn(book.getIsbn())
         .build();
     libraryRepository.save(library);
-    return ResponseEntity.ok().body(library.toString());
+
+    return ResponseEntity.ok().body(library);
+  }
+
+  public boolean libraryBookExists(String isbn) {
+    return libraryRepository.findByIsbn(isbn).isPresent();
   }
 
   public LibraryBook updateStatus(Long id, Status status) {
@@ -52,6 +60,7 @@ public class LibraryService {
   public List<LibraryBook> getBooks(String userEmail) {
     return libraryRepository.findByUserEmail(userEmail);
   }
+
   public LibraryBook getBookFromLibraryBook(String isbn) {
     return libraryRepository.findByIsbn(isbn).get();
   }
