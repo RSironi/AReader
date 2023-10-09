@@ -36,25 +36,32 @@ public class BookService {
         Optional<Book> livro = getBookForApi(isbn);
         if (livro.isEmpty()) {
             return null;
-        }else
-        return bookRepository.save(livro.get());
+        } else
+            return bookRepository.save(livro.get());
     }
-    
+
     public Optional<Book> getBookForApi(String isbn) throws ClientProtocolException, IOException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet request = new HttpGet("https://openlibrary.org/isbn/" + isbn + ".json");
+        HttpGet request = new HttpGet("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn);
         HttpResponse response = httpClient.execute(request);
-        
-        if (response.getStatusLine().getStatusCode() == 200) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(response.getEntity().getContent());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response.getEntity().getContent());
+        if (jsonNode.path("totalItems").asInt() >0) {
+
+            JsonNode volumeInfo = jsonNode.path("items").path(0).path("volumeInfo");
+            String title = volumeInfo.path("title").asText(null);
+            String subtitle = volumeInfo.path("subtitle").asText(null);
+            String author = volumeInfo.path("authors").path(0).asText(null);
+            String cover = volumeInfo.path("imageLinks").path("thumbnail").asText(null);
+
             return Optional.of(Book.builder()
                     .isbn(isbn)
-                    .title(jsonNode.get("title").asText())
-                    .subtitle(jsonNode.get("subtitle").asText())
-                    //.author(jsonNode.get("author").asText())
-                    .cover("http://covers.openlibrary.org/b/isbn/" + isbn + "-M.jpg")
+                    .title(title)
+                    .subtitle(subtitle)
+                    .author(author)
+                    .cover(cover)
                     .build());
         }
         return Optional.empty();
