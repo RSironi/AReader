@@ -2,6 +2,7 @@ package com.tcc.areader.services;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -12,48 +13,57 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tcc.areader.exceptions.AiException;
+import com.tcc.areader.exceptions.BadRequestException;
 import com.tcc.areader.models.Annotation;
+import com.tcc.areader.models.LibraryBook;
 import com.tcc.areader.repositories.AnnotationRepository;
+import com.tcc.areader.repositories.LibraryBookRepository;
 import com.tcc.areader.requests.AddAnnotationRequest;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Service
 public class AnnotationService {
 
-        private final AnnotationRepository annotationRepository;
+        @Autowired
+        private AnnotationRepository annotationRepository;
+        @Autowired
+        private LibraryBookRepository libraryBookRepository;
 
-        public int postToAi(AddAnnotationRequest addannotationrequest) throws IOException {
-                HttpResponse response = executePost(addannotationrequest.getFile(), addannotationrequest.getText());
-                
-                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(response.getEntity()));
+        public Annotation addAnnotation(AddAnnotationRequest addannotationrequest) throws IOException {
+                Optional<LibraryBook> libraryBook = libraryBookRepository
+                                .findById(addannotationrequest.getLibraryBookId());
 
-                        executeSave(Annotation.builder()
-                                        .userEmail(addannotationrequest.getEmail())
-                                        .bookIsbn(addannotationrequest.getIsbn())
-                                        .imgUrl(jsonNode.get("urlAnchor").asText())
-                                        .annotationUrl(jsonNode.get("urlAnnotation").asText())
-                                        .build());
-                }
-                return response.getStatusLine().getStatusCode();
+                if (!libraryBook.isPresent())
+                        throw new BadRequestException("Impossível adicionar anotação sem o livro na biblioteca");
+
+                HttpResponse response = postToAi(addannotationrequest.getFile(), addannotationrequest.getText());
+
+                if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
+                        throw new AiException("Não aprovado na API", response);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(response.getEntity()));
+
+                String imgUrl = jsonNode.get("urlAnchor").asText();
+                String annotationUrl = jsonNode.get("urlAnnotation").asText();
+
+                String userEmail = libraryBook.get().getUserEmail();
+                String bookIsbn = libraryBook.get().getIsbn();
+
+                Annotation anotacao = Annotation.build(null, userEmail, bookIsbn, imgUrl, annotationUrl, null,
+                                libraryBook.get());
+
+                return annotationRepository
+                                .save(anotacao);
         }
 
-        public Annotation executeSave(Annotation annotation) {
-
-                System.out.println(annotation);
-                annotationRepository.save(annotation);
-                return annotation;
-        }
-
-        public HttpResponse executePost(MultipartFile file, String text) throws IOException {
+        public HttpResponse postToAi(MultipartFile file, String text) throws IOException {
                 HttpClient httpClient = HttpClientBuilder.create().build();
                 HttpEntity entity = MultipartEntityBuilder
                                 .create()
@@ -68,12 +78,20 @@ public class AnnotationService {
                 return response;
         }
 
-
         public List<Annotation> getAnnotationsByEmail(String email) {
-                return annotationRepository.findByUserEmail(email);
+                List<Annotation> annotations = annotationRepository.findByUserEmail(email);
+                if (annotations.isEmpty()) {
+                        throw new BadRequestException("Nenhuma anotação encontrada");
+                }
+                return annotations;
         }
+
         public List<Annotation> getAnnotationsByEmailAndIsbn(String email, String isbn) {
-                return annotationRepository.findByUserEmailAndBookIsbn(email, isbn);
+                List<Annotation> annotations = annotationRepository.findByUserEmailAndBookIsbn(email, isbn);
+                if (annotations.isEmpty()) {
+                        throw new BadRequestException("Nenhuma anotação encontrada");
+                }
+                return annotations;
         }
 
         public void deleteAnnotationById(Long id) {

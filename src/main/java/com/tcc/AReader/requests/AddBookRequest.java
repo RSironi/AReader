@@ -1,17 +1,20 @@
 package com.tcc.areader.requests;
 
+import org.hibernate.validator.constraints.ISBN;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
 public class AddBookRequest {
-  private String isbn;
+  @Email(message = "Email inválido")
+  @NotEmpty(message = "Email não pode ser vazio")
   private String userEmail;
+  @ISBN(message = "ISBN inválido", type = ISBN.Type.ANY)
+  private String isbn;
 }

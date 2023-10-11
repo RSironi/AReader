@@ -10,5 +10,7 @@ import com.tcc.areader.models.LibraryBook;
 public interface LibraryBookRepository extends JpaRepository<LibraryBook, Long> {
   List<LibraryBook> findByUserEmail(String userEmail);
 
-  Optional<LibraryBook> findByIsbn(String isbn);
+  Optional<LibraryBook> findByIsbnAndUserEmail(String isbn, String userEmail);
+
+
 }
