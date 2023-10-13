@@ -79,7 +79,7 @@ public class AnnotationService {
         public List<Annotation> getAnnotationsByEmail(String email) {
                 List<Annotation> annotations = annotationRepository.findByUserEmail(email);
                 if (annotations.isEmpty()) {
-                        throw new BadRequestException("Nenhuma anotação encontrada");
+                        throw new BadRequestException("Nenhuma anotação encontrada para este usuário");
                 }
                 return annotations;
         }
@@ -87,7 +87,7 @@ public class AnnotationService {
         public List<Annotation> getAnnotationsByEmailAndIsbn(String email, String isbn) {
                 List<Annotation> annotations = annotationRepository.findByUserEmailAndBookIsbn(email, isbn);
                 if (annotations.isEmpty()) {
-                        throw new BadRequestException("Nenhuma anotação encontrada");
+                        throw new BadRequestException("Nenhuma anotação encontrada para este ISBN");
                 }
                 return annotations;
         }
