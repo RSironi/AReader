@@ -24,7 +24,6 @@ import com.tcc.areader.exceptions.BadRequestException;
 import com.tcc.areader.models.Annotation;
 import com.tcc.areader.models.LibraryBook;
 import com.tcc.areader.repositories.AnnotationRepository;
-import com.tcc.areader.repositories.LibraryBookRepository;
 import com.tcc.areader.requests.AddAnnotationRequest;
 
 @Service
@@ -33,12 +32,11 @@ public class AnnotationService {
         @Autowired
         private AnnotationRepository annotationRepository;
         @Autowired
-        private LibraryBookRepository libraryBookRepository;
+        private LibraryService libraryService;
 
         public Annotation addAnnotation(AddAnnotationRequest addannotationrequest) throws IOException {
-                Optional<LibraryBook> libraryBook = libraryBookRepository
-                                .findById(addannotationrequest.getLibraryBookId());
-
+                Optional<LibraryBook> libraryBook = libraryService.getLibraryBookById(addannotationrequest.getLibraryBookId());
+                
                 if (!libraryBook.isPresent())
                         throw new BadRequestException("Impossível adicionar anotação sem o livro na biblioteca");
 

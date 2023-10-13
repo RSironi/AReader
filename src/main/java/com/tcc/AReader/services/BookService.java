@@ -26,13 +26,13 @@ public class BookService {
     public Book getBook(String isbn) throws ClientProtocolException, IOException, NotFoundException {
         Book book = bookRepository.findByIsbn(isbn);
         if(book == null) {
-            book = getBookForApi(isbn);
+            book = getBookFromApi(isbn);
             return bookRepository.save(book);
         }
         return book;
     }
 
-    public Book getBookForApi(String isbn) throws ClientProtocolException, IOException {
+    public Book getBookFromApi(String isbn) throws ClientProtocolException, IOException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn);

@@ -56,6 +56,6 @@ public class LibraryController {
 
   @GetMapping("/annotation/{id}")
   public List<Annotation> getAnnotationsFromLibraryBook(@PathVariable Long id){
-    return libraryService.getAnnotationsForLibraryBook(id);
+    return libraryService.getAnnotationsOfLibraryBook(id);
   }
 }

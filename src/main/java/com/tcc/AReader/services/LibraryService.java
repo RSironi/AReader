@@ -3,6 +3,7 @@ package com.tcc.areader.services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +59,16 @@ public class LibraryService {
     }
     return libraryBooks;
   }
-    public List<Annotation> getAnnotationsForLibraryBook(Long libraryBookId) {
+    public List<Annotation> getAnnotationsOfLibraryBook(Long libraryBookId) {
         LibraryBook libraryBook = libraryRepository.findById(libraryBookId).orElse(null);
         if (libraryBook != null) {
             return libraryBook.getAnnotations();
         } else {
             throw new BadRequestException("Não há anotações neste livro");
         }
+    }
+
+    public Optional<LibraryBook> getLibraryBookById(long libraryBookId) {
+        return libraryRepository.findById(libraryBookId);
     }
 }
