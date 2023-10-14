@@ -1,4 +1,4 @@
-package com.tcc.areader.requests;
+package com.tcc.areader.request;
 
 import org.hibernate.validator.constraints.ISBN;
 

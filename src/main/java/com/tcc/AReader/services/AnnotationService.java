@@ -19,12 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tcc.areader.exceptions.AiException;
-import com.tcc.areader.exceptions.BadRequestException;
-import com.tcc.areader.models.Annotation;
-import com.tcc.areader.models.LibraryBook;
-import com.tcc.areader.repositories.AnnotationRepository;
-import com.tcc.areader.requests.AddAnnotationRequest;
+import com.tcc.areader.exception.AiException;
+import com.tcc.areader.exception.BadRequestException;
+import com.tcc.areader.model.Annotation;
+import com.tcc.areader.model.LibraryBook;
+import com.tcc.areader.repository.AnnotationRepository;
+import com.tcc.areader.request.AddAnnotationRequest;
 
 @Service
 public class AnnotationService {
@@ -32,10 +32,10 @@ public class AnnotationService {
         @Autowired
         private AnnotationRepository annotationRepository;
         @Autowired
-        private LibraryService libraryService;
+        private LibraryBookService libraryBookService;
 
         public Annotation addAnnotation(AddAnnotationRequest addannotationrequest) throws IOException {
-                Optional<LibraryBook> libraryBook = libraryService.getLibraryBookById(addannotationrequest.getLibraryBookId());
+                Optional<LibraryBook> libraryBook = libraryBookService.getLibraryBookById(addannotationrequest.getLibraryBookId());
                 
                 if (!libraryBook.isPresent())
                         throw new BadRequestException("Impossível adicionar anotação sem o livro na biblioteca");

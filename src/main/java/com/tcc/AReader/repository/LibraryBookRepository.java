@@ -1,11 +1,11 @@
-package com.tcc.areader.repositories;
+package com.tcc.areader.repository;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tcc.areader.models.LibraryBook;
+import com.tcc.areader.model.LibraryBook;
 
 public interface LibraryBookRepository extends JpaRepository<LibraryBook, Long> {
   List<LibraryBook> findByUserEmail(String userEmail);

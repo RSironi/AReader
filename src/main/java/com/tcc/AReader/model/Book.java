@@ -1,4 +1,4 @@
-package com.tcc.areader.models;
+package com.tcc.areader.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

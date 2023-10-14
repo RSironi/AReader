@@ -1,4 +1,4 @@
-package com.tcc.areader.controllers;
+package com.tcc.areader.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tcc.areader.models.Annotation;
-import com.tcc.areader.models.LibraryBook;
-import com.tcc.areader.requests.AddBookRequest;
-import com.tcc.areader.services.LibraryService;
+import com.tcc.areader.model.Annotation;
+import com.tcc.areader.model.LibraryBook;
+import com.tcc.areader.request.AddBookRequest;
+import com.tcc.areader.service.LibraryBookService;
 import com.tcc.areader.utils.Status;
 
 import jakarta.validation.Valid;
@@ -31,7 +31,7 @@ import jakarta.validation.Valid;
 public class LibraryController {
 
   @Autowired
-  private LibraryService libraryService;
+  private LibraryBookService libraryService;
 
   @PostMapping(value = "/add")
   public ResponseEntity<LibraryBook> addBook(@RequestBody @Valid AddBookRequest addBookRequest)

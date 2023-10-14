@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tcc.areader.exceptions.BadRequestException;
-import com.tcc.areader.models.Book;
-import com.tcc.areader.repositories.BookRepository;
+import com.tcc.areader.exception.BadRequestException;
+import com.tcc.areader.model.Book;
+import com.tcc.areader.repository.BookRepository;
 
 @Service
 public class BookService {

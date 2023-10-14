@@ -1,4 +1,4 @@
-package com.tcc.areader.controllers;
+package com.tcc.areader.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tcc.areader.models.Annotation;
-import com.tcc.areader.requests.AddAnnotationRequest;
-import com.tcc.areader.services.AnnotationService;
+import com.tcc.areader.model.Annotation;
+import com.tcc.areader.request.AddAnnotationRequest;
+import com.tcc.areader.service.AnnotationService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;

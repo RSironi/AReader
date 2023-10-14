@@ -1,4 +1,4 @@
-package com.tcc.areader.models;
+package com.tcc.areader.model;
 
 import java.time.Instant;
 import java.util.List;

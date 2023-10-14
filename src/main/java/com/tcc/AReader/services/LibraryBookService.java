@@ -1,4 +1,4 @@
-package com.tcc.areader.services;
+package com.tcc.areader.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.tcc.areader.exceptions.BadRequestException;
-import com.tcc.areader.models.Annotation;
-import com.tcc.areader.models.Book;
-import com.tcc.areader.models.LibraryBook;
-import com.tcc.areader.repositories.LibraryBookRepository;
-import com.tcc.areader.requests.AddBookRequest;
+import com.tcc.areader.exception.BadRequestException;
+import com.tcc.areader.model.Annotation;
+import com.tcc.areader.model.Book;
+import com.tcc.areader.model.LibraryBook;
+import com.tcc.areader.repository.LibraryBookRepository;
+import com.tcc.areader.request.AddBookRequest;
 import com.tcc.areader.utils.Status;
 
 @Service

@@ -1,8 +1,8 @@
-package com.tcc.areader.repositories;
+package com.tcc.areader.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tcc.areader.models.Book;
+import com.tcc.areader.model.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 

@@ -1,4 +1,4 @@
-package com.tcc.areader.exceptions;
+package com.tcc.areader.exception;
 
 import org.apache.http.HttpResponse;
 

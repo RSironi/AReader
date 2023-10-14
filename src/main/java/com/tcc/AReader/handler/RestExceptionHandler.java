@@ -1,4 +1,4 @@
-package com.tcc.areader.handlers;
+package com.tcc.areader.handler;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -18,10 +18,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tcc.areader.exceptions.AiException;
-import com.tcc.areader.exceptions.AiExceptionDetails;
-import com.tcc.areader.exceptions.BadRequestException;
-import com.tcc.areader.exceptions.BadRequestExceptionsDetails;
+import com.tcc.areader.exception.AiException;
+import com.tcc.areader.exception.AiExceptionDetails;
+import com.tcc.areader.exception.BadRequestException;
+import com.tcc.areader.exception.BadRequestExceptionsDetails;
 
 @RestControllerAdvice
 public class RestExceptionHandler {

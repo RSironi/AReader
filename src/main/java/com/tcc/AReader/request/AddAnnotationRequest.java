@@ -1,8 +1,8 @@
-package com.tcc.areader.requests;
+package com.tcc.areader.request;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tcc.areader.exceptions.BadRequestException;
+import com.tcc.areader.exception.BadRequestException;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.constraints.NotNull;
