@@ -19,7 +19,7 @@ import com.tcc.areader.requests.AddBookRequest;
 import com.tcc.areader.utils.Status;
 
 @Service
-public class LibraryService {
+public class LibraryBookService {
   
   @Autowired
   private LibraryBookRepository libraryRepository;
