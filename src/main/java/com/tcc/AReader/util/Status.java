@@ -1,4 +1,4 @@
-package com.tcc.areader.utils;
+package com.tcc.areader.util;
 
 public enum Status {
   READING,
