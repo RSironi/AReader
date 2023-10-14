@@ -22,7 +22,7 @@ import com.tcc.areader.model.Annotation;
 import com.tcc.areader.model.LibraryBook;
 import com.tcc.areader.request.AddBookRequest;
 import com.tcc.areader.services.LibraryBookService;
-import com.tcc.areader.utils.Status;
+import com.tcc.areader.util.Status;
 
 import jakarta.validation.Valid;
 

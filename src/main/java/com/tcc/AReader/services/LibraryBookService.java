@@ -16,7 +16,7 @@ import com.tcc.areader.model.Book;
 import com.tcc.areader.model.LibraryBook;
 import com.tcc.areader.repository.LibraryBookRepository;
 import com.tcc.areader.request.AddBookRequest;
-import com.tcc.areader.utils.Status;
+import com.tcc.areader.util.Status;
 
 @Service
 public class LibraryBookService {
