@@ -1,4 +1,4 @@
-package com.tcc.areader.services;
+package com.tcc.areader.service;
 
 import java.io.IOException;
 import java.util.ArrayList;

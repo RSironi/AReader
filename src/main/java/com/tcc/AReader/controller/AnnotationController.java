@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tcc.areader.model.Annotation;
 import com.tcc.areader.request.AddAnnotationRequest;
-import com.tcc.areader.services.AnnotationService;
+import com.tcc.areader.service.AnnotationService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
