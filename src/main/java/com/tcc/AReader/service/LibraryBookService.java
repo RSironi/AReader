@@ -20,7 +20,7 @@ import com.tcc.areader.util.Status;
 
 @Service
 public class LibraryBookService {
-  
+
   @Autowired
   private LibraryBookRepository libraryRepository;
   @Autowired
@@ -30,45 +30,46 @@ public class LibraryBookService {
       throws ClientProtocolException, NotFoundException, IOException {
 
     Book book = bookService.getBook(addBookRequest.getIsbn());
-    
+
     if (libraryBookExists(addBookRequest.getIsbn(), addBookRequest.getUserEmail())) {
       throw new BadRequestException("Livro já adicionado na biblioteca");
     }
-    return libraryRepository.save(LibraryBook.build(null, addBookRequest.getUserEmail(), book.getIsbn(), Status.WANT_TO_READ,null, book, new ArrayList<Annotation>()));
+    return libraryRepository.save(LibraryBook.build(null, addBookRequest.getUserEmail(), book.getIsbn(),
+        Status.WANT_TO_READ, null, book, new ArrayList<Annotation>()));
   }
 
-  public boolean libraryBookExists(String isbn, String userEmail) {
+  private boolean libraryBookExists(String isbn, String userEmail) {
     return libraryRepository.findByIsbnAndUserEmail(isbn, userEmail).isPresent();
   }
 
   public LibraryBook updateStatus(Long id, Status status) {
-      LibraryBook libraryBook = libraryRepository.findById(id).get();
-      libraryBook.setStatus(status);
-      return libraryRepository.save(libraryBook);
+    LibraryBook libraryBook = libraryRepository.findById(id).get();
+    libraryBook.setStatus(status);
+    return libraryRepository.save(libraryBook);
   }
 
   public void removeBookFromLibrary(Long id) {
-      libraryRepository.deleteById(id);
+    libraryRepository.deleteById(id);
   }
 
   public List<LibraryBook> getAllLibraryBooksFromUser(String userEmail) {
     List<LibraryBook> libraryBooks = libraryRepository.findByUserEmail(userEmail);
-    
-    if(libraryBooks.isEmpty()) {
+
+    if (libraryBooks.isEmpty()) {
       throw new BadRequestException("Nenhum livro adicionado na biblioteca");
     }
     return libraryBooks;
   }
-    public List<Annotation> getAnnotationsOfLibraryBook(Long libraryBookId) {
-        LibraryBook libraryBook = libraryRepository.findById(libraryBookId).orElse(null);
-        if (libraryBook != null) {
-            return libraryBook.getAnnotations();
-        } else {
-            throw new BadRequestException("Não há anotações neste livro");
-        }
-    }
 
-    public Optional<LibraryBook> getLibraryBookById(long libraryBookId) {
-        return libraryRepository.findById(libraryBookId);
-    }
+  public List<Annotation> getAnnotationsOfLibraryBook(Long libraryBookId) {
+    LibraryBook libraryBook = libraryRepository.findById(libraryBookId).orElse(null);
+    if (libraryBook != null) return libraryBook.getAnnotations();
+    else throw new BadRequestException("Não há anotações neste livro");
+  }
+
+  public Optional<LibraryBook> getLibraryBookById(long libraryBookId) {
+        Optional<LibraryBook> libraryBook = libraryRepository.findById(libraryBookId);
+        if (libraryBook.isPresent()) return libraryBook;
+        else throw new BadRequestException("Livro não encontrado na biblioteca, id: " + libraryBookId);
+      }
 }

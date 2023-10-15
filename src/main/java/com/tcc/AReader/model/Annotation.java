@@ -1,6 +1,8 @@
 package com.tcc.areader.model;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -40,4 +43,8 @@ public class Annotation {
   @JoinColumn(name = "library_book_id")
   @JsonIgnore
   private LibraryBook libraryBook;
+
+  @ManyToMany(mappedBy = "annotations")
+  @JsonIgnore
+  private List<Group> groups = new ArrayList<Group>();
 }

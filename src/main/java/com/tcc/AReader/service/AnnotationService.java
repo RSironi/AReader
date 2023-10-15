@@ -1,6 +1,7 @@
 package com.tcc.areader.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +56,7 @@ public class AnnotationService {
                 String bookIsbn = libraryBook.get().getIsbn();
 
                 Annotation anotacao = Annotation.build(null, userEmail, bookIsbn, imgUrl, annotationUrl, null,
-                                libraryBook.get());
+                                libraryBook.get(),new ArrayList<>());
 
                 return annotationRepository
                                 .save(anotacao);
@@ -94,5 +95,11 @@ public class AnnotationService {
 
         public void deleteAnnotationById(Long id) {
                 annotationRepository.deleteById(id);
+        }
+
+        public Annotation getAnnotationById(Long id) {
+                Optional<Annotation> annotation = annotationRepository.findById(id);
+                if (annotation.isPresent()) return annotation.get();
+                else throw new BadRequestException("Anotação não encontrada");
         }
 }
