@@ -31,14 +31,14 @@ public class LibraryService {
 
     Book book = bookService.getBook(addBookRequest.getIsbn());
     
-    if (libraryBookExists(addBookRequest.getIsbn(), addBookRequest.getUserEmail())) {
+    if (libraryBookExists(addBookRequest.getIsbn(), addBookRequest.getUserEmail()).isPresent()) {
       throw new BadRequestException("Livro já adicionado na biblioteca");
     }
     return libraryRepository.save(LibraryBook.build(null, addBookRequest.getUserEmail(), book.getIsbn(), Status.WANT_TO_READ,null, book, new ArrayList<Annotation>()));
   }
 
-  public boolean libraryBookExists(String isbn, String userEmail) {
-    return libraryRepository.findByIsbnAndUserEmail(isbn, userEmail).isPresent();
+  public Optional<LibraryBook> libraryBookExists(String isbn, String userEmail) {
+    return libraryRepository.findByIsbnAndUserEmail(isbn, userEmail);
   }
 
   public LibraryBook updateStatus(Long id, Status status) {

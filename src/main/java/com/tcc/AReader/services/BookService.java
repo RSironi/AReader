@@ -17,6 +17,8 @@ import com.tcc.areader.exceptions.BadRequestException;
 import com.tcc.areader.models.Book;
 import com.tcc.areader.repositories.BookRepository;
 
+import io.swagger.v3.core.util.Json;
+
 @Service
 public class BookService {
     
@@ -41,14 +43,15 @@ public class BookService {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response.getEntity().getContent());
         if (jsonNode.path("totalItems").asInt() ==1) {
-
-            JsonNode volumeInfo = jsonNode.path("items").path(0).path("volumeInfo");
+            JsonNode book = jsonNode.path("items").path(0);
+            JsonNode volumeInfo = book.path("volumeInfo");
             String title = volumeInfo.path("title").asText(null);
             String subtitle = volumeInfo.path("subtitle").asText(null);
             String author = volumeInfo.path("authors").path(0).asText(null);
             String cover = volumeInfo.path("imageLinks").path("thumbnail").asText(null);
+            String url = book.path("selfLink").asText(null);
 
-            return Book.build(null, isbn, title, subtitle, author, cover);
+            return Book.build(null, isbn, title, subtitle, author, cover, url);
         }
         throw new BadRequestException("livro não encontrado no Google Books");
     }

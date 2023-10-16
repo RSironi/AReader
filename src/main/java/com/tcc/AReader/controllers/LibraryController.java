@@ -2,6 +2,7 @@ package com.tcc.areader.controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,10 @@ public class LibraryController {
   @GetMapping("/annotation/{id}")
   public List<Annotation> getAnnotationsFromLibraryBook(@PathVariable Long id){
     return libraryService.getAnnotationsOfLibraryBook(id);
+  }
+
+  @GetMapping("/checkLibrary")
+  public Optional<LibraryBook> checkLibrary(@RequestParam String isbn, @RequestParam String userEmail) {
+    return libraryService.libraryBookExists(isbn, userEmail);
   }
 }
