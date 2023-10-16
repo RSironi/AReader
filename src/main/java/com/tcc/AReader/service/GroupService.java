@@ -25,11 +25,11 @@ public class GroupService {
     @Autowired
     private AnnotationService annotationService;
 
-    public Group CreateGroup(CreateGroupRequest createGroupRequest) {
-        LibraryBook libraryBook = libraryBookService.getLibraryBookById(createGroupRequest.getLibraryBookId()).get();
+    public Group CreateGroup(Long libraryBookId, String pass) {
+        LibraryBook libraryBook = libraryBookService.getLibraryBookById(libraryBookId).get();
         if (groupExists(libraryBook))
             throw new BadRequestException("Grupo já existe");
-        String password = createGroupRequest.getPassword();
+        String password = pass;
         String owner = libraryBook.getUserEmail();
 
         Group group = Group.build(null, password, owner, libraryBook, new ArrayList<String>(), new ArrayList<Annotation>());

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tcc.areader.model.Group;
 import com.tcc.areader.request.AnnotationToGroupRequest;
-import com.tcc.areader.request.CreateGroupRequest;
 import com.tcc.areader.service.GroupService;
 
 import jakarta.validation.Valid;
@@ -28,9 +27,9 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
-    @PostMapping("/add")
-    public ResponseEntity<Group> createGroup(@RequestBody @Valid CreateGroupRequest createGroupRequest){
-        return new ResponseEntity<>(groupService.CreateGroup(createGroupRequest), HttpStatus.CREATED);
+    @PostMapping("/create")
+    public ResponseEntity<Group> createGroup(@RequestParam Long libraryBookId, @RequestParam String password){
+        return new ResponseEntity<>(groupService.CreateGroup(libraryBookId,password), HttpStatus.CREATED);
     }
 
     @PatchMapping("/addAnnotation")
