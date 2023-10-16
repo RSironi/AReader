@@ -12,7 +12,6 @@ import com.tcc.areader.model.Annotation;
 import com.tcc.areader.model.Group;
 import com.tcc.areader.model.LibraryBook;
 import com.tcc.areader.repository.GroupRepository;
-import com.tcc.areader.request.CreateGroupRequest;
 
 @Service
 public class GroupService {
