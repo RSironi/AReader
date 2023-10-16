@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,4 +48,11 @@ public class Annotation {
   @ManyToMany(mappedBy = "annotations")
   @JsonIgnore
   private List<Group> groups = new ArrayList<Group>();
+
+  @PreRemove
+  private void removeAnnotationFromGroups(){
+    for(Group group : groups){
+      group.getAnnotations().remove(this);
+    }
+  }
 }

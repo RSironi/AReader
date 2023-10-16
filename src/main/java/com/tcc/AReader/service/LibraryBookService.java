@@ -35,7 +35,7 @@ public class LibraryBookService {
       throw new BadRequestException("Livro já adicionado na biblioteca");
     }
     return libraryRepository.save(LibraryBook.build(null, addBookRequest.getUserEmail(), book.getIsbn(),
-        Status.WANT_TO_READ, null, book, new ArrayList<Annotation>()));
+        Status.WANT_TO_READ, null, book, null, new ArrayList<Annotation>()));
   }
 
   private boolean libraryBookExists(String isbn, String userEmail) {

@@ -2,23 +2,14 @@ spring:
   server:
     port: 8080
   datasource:
+    #url: jdbc:h2:mem:testdb
     url: jdbc:postgresql://dpg-ckmhj5av7m0s739v85dg-a.oregon-postgres.render.com/db_tfd3
     username: areader
     password: xMrp3RM4p636pzEp53r6xQFnxI4YnaLE
-    #driver-class-name: org.postgresql.Driver
   jpa:
-    #database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-    #show-sql: true
   servlet:
-    tomcat:
-      #acess-log-enabled: true
     multipart:
       max-file-size: 15MB
       max-request-size: 15MB
-  security:
-    user:
-      name: test
-      password: test
-      roles: ADMIN
