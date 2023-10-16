@@ -55,16 +55,26 @@ public class GroupService {
             throw new BadRequestException("Grupo não encontrado");
     }
 
+    private boolean ownerOfAnnotationAndGroup(Optional<Group> group, Annotation annotation) {
+        if(group.get().getOwner().equals(annotation.getUserEmail()))
+        return true;
+    throw new BadRequestException("Anotação e Grupo não pertencem ao mesmo usuário");
+    }
+
+    private boolean annotationNotExistsInGroup(Optional<Group> group, Annotation annotation) {
+        if(!group.get().getAnnotations().contains(annotation))
+        return true;
+    throw new BadRequestException("Anotação já existe no grupo");
+    }
+
     public Group addAnnotationToGroup(Long idGroup, Long idAnnotation) {
         Optional<Group> group = getGroupById(idGroup);
         Annotation annotation = annotationService.getAnnotationById(idAnnotation);
-        if (!group.get().getOwner().equals(annotation.getUserEmail()))
-            throw new BadRequestException("Anotação e Grupo não pertencem ao mesmo usuário");
-        else {
-
+        if (ownerOfAnnotationAndGroup(group, annotation) && annotationNotExistsInGroup(group, annotation)) {
             group.get().getAnnotations().add(annotation);
             return groupRepository.save(group.get());
         }
+        throw new BadRequestException("Erro ao adicionar anotação ao grupo");
     }
     public Group removeAnnotationFromGroup(Long idGroup, Long idAnnotation) {
         Optional<Group> group = getGroupById(idGroup);
@@ -78,15 +88,28 @@ public class GroupService {
         }
     }
 
+
+    private boolean memberNotInGroup(Optional<Group> group, String member) {
+        if(!group.get().getMembers().contains(member))
+        return true;    
+    throw new BadRequestException("Usuário já pertence ao grupo");
+    }
+
+    private boolean passwordMatch(Optional<Group> group, String password) {
+        if(group.get().getPassword().equals(password))
+        return true;
+    throw new BadRequestException("Senha incorreta");
+    }
+
     public Group joinGroup(Long idGroup, String password, String member) {
         Optional<Group> group = getGroupById(idGroup);
-        if (!group.get().getPassword().equals(password))
-            throw new BadRequestException("Senha incorreta");
-        else {
+        
+        if(memberNotInGroup(group, member) && passwordMatch(group, password)){
             group.get().getMembers().add(member);
             return groupRepository.save(group.get());
         }
-    }
+        throw new BadRequestException("Erro ao entrar no grupo");
+        }
 
     public Group leaveGroup(Long idGroup, String member) {
         Optional<Group> group = getGroupById(idGroup);
