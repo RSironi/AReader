@@ -22,4 +22,5 @@ public class Book {
   private String subtitle;
   private String author;
   private String cover;
+  private String url;
 }
