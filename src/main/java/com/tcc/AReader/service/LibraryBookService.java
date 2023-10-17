@@ -43,9 +43,13 @@ public class LibraryBookService {
   }
 
   public LibraryBook updateStatus(Long id, Status status) {
-    LibraryBook libraryBook = libraryRepository.findById(id).get();
-    libraryBook.setStatus(status);
-    return libraryRepository.save(libraryBook);
+    Optional<LibraryBook> libraryBook = libraryRepository.findById(id);
+
+    if(libraryBook.isEmpty()) {
+      throw new BadRequestException("Livro não encontrado na biblioteca");
+    }
+    libraryBook.get().setStatus(status);
+    return libraryRepository.save(libraryBook.get());
   }
 
   public void removeBookFromLibrary(Long id) {

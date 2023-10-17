@@ -10,9 +10,6 @@ import com.tcc.areader.security.SecurityConfigurationBasicAuth;
 public class AReaderApplication {
 	public static void main(String[] args) {
 
-		System.getenv();
-
-
 		SpringApplication.run(AReaderApplication.class, args);
 	}
 }
