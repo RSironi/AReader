@@ -9,7 +9,6 @@ import com.tcc.areader.security.SecurityConfigurationBasicAuth;
 @Import(SecurityConfigurationBasicAuth.class)
 public class AReaderApplication {
 	public static void main(String[] args) {
-
 		SpringApplication.run(AReaderApplication.class, args);
 	}
 }

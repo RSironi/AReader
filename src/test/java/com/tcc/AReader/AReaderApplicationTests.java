@@ -8,6 +8,7 @@ class AReaderApplicationTests {
 
 	@Test
 	void contextLoads() {
-	}
+		
+		}
 
 }

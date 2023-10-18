@@ -3,12 +3,21 @@ spring:
     port: 8080
   datasource:
     #url: jdbc:h2:mem:testdb
-    url: jdbc:postgresql://dpg-ckmhj5av7m0s739v85dg-a.oregon-postgres.render.com/db_tfd3
-    username: areader
-    password: xMrp3RM4p636pzEp53r6xQFnxI4YnaLE
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:///postgres
+    username: postgres
+    password: areader
+    hikari:
+      data-source-properties:
+        socketFactory: com.google.cloud.sql.postgres.SocketFactory
+        cloudSqlInstance: areader-399020:southamerica-east1:areaderdb
+
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+     hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
   servlet:
     multipart:
       max-file-size: 15MB
