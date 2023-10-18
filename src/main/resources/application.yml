@@ -1,8 +1,5 @@
 spring:
-  server:
-    port: 8080
   datasource:
-    #url: jdbc:h2:mem:testdb
     url: jdbc:postgresql://dpg-ckmhj5av7m0s739v85dg-a.oregon-postgres.render.com/db_tfd3
     username: areader
     password: xMrp3RM4p636pzEp53r6xQFnxI4YnaLE
@@ -13,3 +10,5 @@ spring:
     multipart:
       max-file-size: 15MB
       max-request-size: 15MB
+  server:
+    port: 8080
