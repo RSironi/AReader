@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### SECRET GCLOUD##
+src\main\resources\areader-399020-ec5a3dd20423.json
+
 ### STS ###
 .apt_generated
 .classpath
