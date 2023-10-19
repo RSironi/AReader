@@ -1,14 +1,28 @@
 spring:
+
+
+  cloud:
+    gcp:
+      sql:
+        database-name: areader-backend
+        instance-connection-name: areader-399020:southamerica-east1:areaderdb
+    #credentials:
+      #location: file:src//main//resources//areader-399020-ec5a3dd20423.json
   datasource:
-    url: jdbc:postgresql://dpg-ckmhj5av7m0s739v85dg-a.oregon-postgres.render.com/db_tfd3
-    username: areader
-    password: xMrp3RM4p636pzEp53r6xQFnxI4YnaLE
+    username: postgres
+    password: areader
+    driver-class-name: org.postgresql.Driver
+
+    continue-on-error: true
+  sql.init.mode: always
+
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+     hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
   servlet:
     multipart:
       max-file-size: 15MB
       max-request-size: 15MB
-  server:
-    port: 8080
