@@ -62,7 +62,7 @@ public class AnnotationService {
                                 .save(anotacao);
         }
 
-        public HttpResponse postToAi(MultipartFile file, String text) throws IOException {
+        private HttpResponse postToAi(MultipartFile file, String text) throws IOException {
                 HttpClient httpClient = HttpClientBuilder.create().build();
                 HttpEntity entity = MultipartEntityBuilder
                                 .create()

@@ -9,11 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.test.annotation.DirtiesContext;
 
 import com.tcc.areader.request.AddBookRequest;
 import com.tcc.areader.service.LibraryBookService;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class AReaderApplicationTests {
 
 	@Autowired
