@@ -1,16 +1,20 @@
 spring:
-  server:
-    port: 8080
+
+
+  cloud:
+    gcp:
+      sql:
+        database-name: areader-backend
+        instance-connection-name: areader-399020:southamerica-east1:areaderdb
+    #credentials:
+      #location: file:src//main//resources//areader-399020-ec5a3dd20423.json
   datasource:
-    #url: jdbc:h2:mem:testdb
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql:///postgres
     username: postgres
     password: areader
-    hikari:
-      data-source-properties:
-        socketFactory: com.google.cloud.sql.postgres.SocketFactory
-        cloudSqlInstance: areader-399020:southamerica-east1:areaderdb
+    driver-class-name: org.postgresql.Driver
+
+    continue-on-error: true
+  sql.init.mode: always
 
   jpa:
     hibernate:
