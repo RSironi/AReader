@@ -25,7 +25,7 @@ Desenvolvido com:
   - Docker
   - Apache HTTP (para comunicação com API da IA)
   - Google Credentials
-  - Handler básico de Erros
+  - Handler básico de Erros e Segurança
 
 ## Uso
 **Necessário editar as configurações com suas próprias credenciais e acessos.**
