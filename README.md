@@ -30,9 +30,9 @@ Desenvolvido com:
 ## Uso
 **Necessário editar as configurações com suas próprias credenciais e acessos.**
 
-Via java
+Via IDE
 ```bash
-#execute o arquivo na IDE ./src/main/java/com/tcc/AReader
+#execute o arquivo em ./src/main/java/com/tcc/AReader
 AReaderApplication.java
 ```
 
