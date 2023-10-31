@@ -1,7 +1,5 @@
 # AReader
 
-TCC - AReader
-
 API REST desenvolvida para o TCC do projeto AReader (visualização em realidade aumentada de anotações virtuais em livros). 
 
 Desenvolvido com:
